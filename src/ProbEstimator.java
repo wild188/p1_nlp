@@ -40,8 +40,8 @@ public class ProbEstimator{
         corpusSize = 0;
         try{
             vocab = calcFrequency(inputFileName);
-            writeff(vocab);
-            writeGT(gtList);
+            writeVocab(vocab);
+            writeff(gtList);
         }catch(Exception e){
             System.out.println(e.getMessage());
             return;
@@ -49,23 +49,30 @@ public class ProbEstimator{
         
         
     }
-    private static void writeGT(ArrayList<Integer> list)  throws IOException{
-        FileWriter fw = new FileWriter("results/GTTable.txt");
+    private static void writeff(ArrayList<Integer> list)  throws IOException{
+        FileWriter fw = new FileWriter("results/ff.txt");
         BufferedWriter bw = new BufferedWriter(fw);
-        
+        System.out.println("GT Length: " + list.size());
+        int i = 0;
         for (Integer var : list) {
-            bw.write(var.toString());
+            bw.write(i + " : " + var.toString());
             bw.newLine();
+            i++;
         }
+        bw.close();
+        fw.close();
+        System.out.println("Printed: " + i);
     }
 
-    private static void writeff(List<WordCount> vocab) throws IOException{
-        FileWriter fw = new FileWriter("results/ff.txt");
+    private static void writeVocab(List<WordCount> vocab) throws IOException{
+        FileWriter fw = new FileWriter("results/vocab.txt");
 		BufferedWriter bw = new BufferedWriter(fw);
         for (WordCount var : vocab) {
             bw.write(var.toString());
             bw.newLine();
         }
+        bw.close();
+        fw.close();
     }
 
     public static List<WordCount> calcFrequency(String filename) throws IOException{
