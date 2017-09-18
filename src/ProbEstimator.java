@@ -5,11 +5,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Serializable;
 import java.io.*;
-import java.lang.Object;
-//import jars.*;
-import org.apache.commons.math3.stat.regression.SimpleRegression;
-
 import java.util.*;
+import java.lang.Object;
+import org.apache.commons.math3.stat.regression.SimpleRegression;
+//import jars.*;
+//import BigramCount;
 
 //import com.sun.xml.internal.fastinfoset.vocab.Vocabulary;
 
@@ -70,10 +70,10 @@ public class ProbEstimator{
                 if(gtList.get(i) == 0) 
                     zeros.add(i);
                 else
-                    linearR.addData(i, gtList.get(i));
+                    linearR.addData(Math.log(i), Math.log(gtList.get(i)));
             }
             for(Integer var : zeros){
-                gtList.add(var, (int)Math.round(linearR.predict(var)));
+                gtList.set(var, (int)Math.round(Math.exp(linearR.predict(var)))); //un log10???
             }
 
             calcBigrams(vocab);
@@ -189,7 +189,7 @@ public class ProbEstimator{
             ex.printStackTrace();
          }
 
-        //System.out.println("Printed: " + i);
+        System.out.println("Printed: " + k);
     }
 
     public static List<BigramCount> calcFrequency(String filename) throws IOException{
