@@ -3,12 +3,17 @@ import java.io.FileWriter;
 import java.io.BufferedWriter;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.Serializable;
+import java.io.*;
+import java.lang.Object;
+//import jars.*;
+import org.apache.commons.math3.stat.regression.SimpleRegression;
 
 import java.util.*;
 
 //import com.sun.xml.internal.fastinfoset.vocab.Vocabulary;
 
-class BigramCount{
+class BigramCount implements Serializable{
     public String word1;
     public String word2;
     public int count;
@@ -48,18 +53,33 @@ public class ProbEstimator{
       */
     private static int corpusSize;
     private static ArrayList<Integer> gtList;
+    private static SimpleRegression linearR;
 
     public static void main(String[] args){
         String inputFileName = args[0];
         List<BigramCount> vocab;
         gtList = new ArrayList<Integer>();
+        linearR = new SimpleRegression();
         corpusSize = 0;
         try{
             vocab = calcFrequency(inputFileName);
             writeVocab(vocab);
+
+            ArrayList<Integer> zeros = new ArrayList<Integer>();
+            for(int i = 0; i < gtList.size(); i++) {
+                if(gtList.get(i) == 0) 
+                    zeros.add(i);
+                else
+                    linearR.addData(i, gtList.get(i));
+            }
+            for(Integer var : zeros){
+                gtList.add(var, (int)Math.round(linearR.predict(var)));
+            }
+
             calcBigrams(vocab);
             
             writeff(gtList);
+            writeGT(gtList, 10);
         }catch(Exception e){
             System.out.println(e.getMessage());
             return;
@@ -78,22 +98,54 @@ public class ProbEstimator{
             bw.write(var.toString());
             bw.newLine();
         }
+
+        try {
+            File objFile = new File("results/bigrams.ser");
+            objFile.createNewFile();
+            FileOutputStream fileOut = new FileOutputStream(objFile);
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(master);
+            out.close();
+            fileOut.close();
+            System.out.printf("Serialized data is saved in /results/bigrams.ser");
+         }catch(IOException i) {
+            i.printStackTrace();
+         }
+
         bw.close();
         fw.close();
     }
-
+    
     private static void writeff(ArrayList<Integer> list)  throws IOException{
         FileWriter fw = new FileWriter("results/ff.txt");
         BufferedWriter bw = new BufferedWriter(fw);
         System.out.println("GT Length: " + list.size());
+
         int i = 0;
         for (Integer var : list) {
+            if(var == 0){
+                var = (int)Math.round(linearR.predict(i));
+            }
             bw.write(i + " : " + var.toString());
             bw.newLine();
             i++;
         }
         bw.close();
         fw.close();
+
+        try {
+            File objFile = new File("results/ff.ser");
+            objFile.createNewFile();
+            FileOutputStream fileOut = new FileOutputStream(objFile);
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(list);
+            out.close();
+            fileOut.close();
+            System.out.printf("Serialized data is saved in /results/ff.ser");
+         }catch(IOException ex) {
+            ex.printStackTrace();
+         }
+
         System.out.println("Printed: " + i);
     }
 
@@ -106,6 +158,38 @@ public class ProbEstimator{
         }
         bw.close();
         fw.close();
+    }
+
+    private static void writeGT(ArrayList<Integer> list, int k) throws IOException{
+        FileWriter fw = new FileWriter("results/GTTable.txt");
+        BufferedWriter bw = new BufferedWriter(fw);
+        System.out.println("GT Length: " + k);
+        
+        double[] cStars = new double[k];
+        for(int i = 0; i < k; i++){
+            System.out.printf((i + 1) + "*" + (list.get(i + 1) + "/" + (double)list.get(i)) + "\n");
+            cStars[i] = (i + 1) * (list.get(i + 1) / (double)list.get(i));
+            bw.write(i + " : " + cStars[i]);
+            bw.newLine();
+        }
+
+        bw.close();
+        fw.close();
+
+        try {
+            File objFile = new File("results/GTTable.ser");
+            objFile.createNewFile();
+            FileOutputStream fileOut = new FileOutputStream(objFile);
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(cStars);
+            out.close();
+            fileOut.close();
+            System.out.printf("Serialized data is saved in /results/GTTable.ser");
+         }catch(IOException ex) {
+            ex.printStackTrace();
+         }
+
+        //System.out.println("Printed: " + i);
     }
 
     public static List<BigramCount> calcFrequency(String filename) throws IOException{
