@@ -1,0 +1,170 @@
+Read in 179093 bigrams
+! -> '' : 4 : 1.7525083921323276E-5 Through...
+~ -> this : 1 : 1.891334994808871E-6
+Error predicted 8378
+
+ </s> <s> this affect sounds really good through a fat cab or a larger amp that can let the cabinet give the tone a little color .
+Error predicted 26423
+
+ </s> <s> accept it does have problems removing occasional sticky string pegs .
+Error predicted 36689
+
+ </s> <s> as far as longevity , these seem to last me about 2 months , which is on par with other coated strings i 've tried , accept for the elixir 80/20 's which average about 3 months .
+Error predicted 37890
+
+ </s> <s> this adds no noise that i can tell , accept if the sliders are up it amplifies noise already there.it 's an all around quality product that i imagine i 'll still have twenty years from now .
+Error predicted 38518
+
+ </s> <s> if you listen or read what many pro guitarists and techies have to say about digitech effects pedals , they 'll tell you to stay away from them ... accept for this one .
+Error predicted 46392
+
+ </s> <s> comes with everything you need -lrb- accept a drill or a screwdriver of course -rrb- .
+Error predicted 50548
+
+ </s> <s> this is a great affect .
+Error predicted 53852
+
+ </s> <s> with my personal experience in mind , i would advice you to save your money and get a pedalboard power supply .
+Error predicted 61820
+
+ </s> <s> what to say about this accept that they mounted properly , came with the right screws and i didnt have any issues .
+Error predicted 66346
+
+ </s> <s> i love this stuff for all my fretboards , accept for unusually dirty ones .
+Error predicted 71338
+
+ </s> <s> a 10db pad will reduce output but does n't effect the diaphragm and its input and acoustical foam wo n't help , that 's not even its purpose , i suggest reading this on acoustics and foam , music.tutsplus dot com/tutorials/beginners-guide-to - acoustic-treatment -- audio-1274 -lrb- just replace the -lsb- dot -rsb- -rrb- .
+Error predicted 71601
+
+ </s> <s> if your future plans include using only one mic , without the ability to use any traditional recording hardware , you can look here.audio-technica at2020 usb condenser usb microphoneor hereaudio technica at2020usb + cardioid condenser microphone w/pop filterthis is not my advise , you will also lose the higher quality playback and the supplied recording software that comes with an interface .
+Error predicted 94488
+
+ </s> <s> everything functioned well and the medium reverb affect performed well on all inputs .
+Error predicted 95535
+
+ </s> <s> for the money you ca n't go wrong with this affect .
+Error predicted 99452
+
+ </s> <s> there is a simple level knob for the intensity of the affect and the great thing is that a foot switch is included where you just stomp on a button to invoke your effects or return to clean acoustic guitar .
+Error predicted 101846
+
+ </s> <s> i got this yesterday , and everything was alright , accept that two of the three mics worked .
+Error predicted 103510
+
+ </s> <s> however , this is an affect i pull out just once in a while and since i can buy 4 or 5 or 6 behringers for the price of a boss ... if it breaks ... i 'll just buy another.i also have a boss gt-100 multi-effects unit .
+Error predicted 107316
+
+ </s> <s> for 50 bucks you get every affect accept distortion .
+Error predicted 111212
+
+ </s> <s> there is a reason this is the number one best selling guitar affect pedal on the market .
+Error predicted 112134
+
+ </s> <s> got ta love the slow moe i bought this affect because i saw a few youtube demos that made it look pretty good .
+Error predicted 112158
+
+ </s> <s> i had always wanted an attack delay affect and the behringer slow motion was priced well below all competitors .
+Error predicted 112220
+
+ </s> <s> it only works well under these circumstances : all notes must be played slowly , individually and deliberately in order for the attack delay affect to kick in .
+Error predicted 112239
+
+ </s> <s> you ca n't play a quick series of notes and expect the affect to work properly .
+Error predicted 112254
+
+ </s> <s> having said that , i found that the affect is nice , once you have mastered the technique .
+Error predicted 113167
+
+ </s> <s> i 've never been much of an affect pedal guy ; lots of batteries and cables when i can just get a good tone direct into my fender tweed .
+Error predicted 116360
+
+ </s> <s> there is some hum , but it is n't so pronounced that it interferes that much with your sound.so for all that you get with this and the fact that it cuts down almost totally on the need for adapters -lrb- accept a dod malmsteen preamp overdrive -rrb- , this is a great deal .
+Error predicted 119487
+
+ </s> <s> not much to say about a guitar strap ... accept i had planned to use it on a simga acoustic without a pin at the neck .
+Error predicted 122930
+
+ </s> <s> -lrb- these are real deal pro cables , as opposed to some cables priced similarly that have a monster price , but not necessarily a superior build or sound , which is why i did n't walk into guitar center and buy a pair of monster 1000 's and waited for these to be delivered overnight instead , , , -rrb- ... but it works fine for me.i used to connect a orange micro terror head amporange amplifiers micro terror mt20 20w hybrid guitar amp head -lrb- standard -rrb- to a cabinet ppc108orange ppc108 1x8 '' speaker cabinet without going over the fiscal cliff these cables worked very well in my 7-pedal guitar affect lineup.no noticeable hiss , hum or buzzing .
+Error predicted 125682
+
+ </s> <s> there are internal trimpots to make the affect more pronounced but i have yet to mess with them .
+Error predicted 126035
+
+Error predicted 126042
+
+ </s> <s> if your buying this reverb machine then you must be wanting it for its ducking also called shimmer and space verb if not then there are cheaper reverbs as danelectro as fab echo which is a nice sounding older type slap reverbs sound and there is the more expensive line 6 verbzilla , and someone wrote me and said boss has or did have this affect there are internet videos showing this affect .
+Error predicted 126129
+
+ </s> <s> i had already wrote some songs using my digitech gsp 2101 and started having dreams about having this sound affect again and just had to have it.how well this behringer rv600 performs and sounds i have not received it yet to know but if possible i will do an up date but i have a behringer ep2500 power amplifier that still works good which i even used as part of a rife , doug coil machine but the ep4000 would be better for that use also the fan runs all the time .
+Error predicted 138979
+
+ </s> <s> my advise - spend more and get something that will work with all applications .
+Error predicted 140157
+
+ </s> <s> i also tend not to like fuzz as an affect .
+Error predicted 145225
+
+ </s> <s> i recommend reviewing the manual for your first day or two of orientation.to sum up the device quickly , the rp255 is probably capable of generating any sound or affect you want , but you may need to work at it .
+Error predicted 150772
+
+ </s> <s> pack of 10 guitar picks - check `` meet the beatles '' theme - checkretail packaging - checktwo-day delivery -lrb- got it the next day ... thanks to prime -rrb- - checkhappy guitarist - checki ca n't really complain about anything , accept maybe for the price .
+Error predicted 151551
+
+ </s> <s> i had n't really studied them too much , accept to note that they all seemed to be way more money than they were worth .
+Error predicted 152487
+
+ </s> <s> solid , nice sound , very good quality to make anyone happy , accept your neighbors.now after a couple of months i want to say ... this is great product in terms of sound , not so great in terms of small building detailsgreat for blues style , just use it with clean and good reverb or crunch and you will get amazing blues sounds.my only con and that 's why i have reduced it to 4 stars is the fact that one of the corners protectors came broken and also , the phones are not working .
+Error predicted 153101
+
+ </s> <s> i doubt that i will use my crate again -lrb- accept when guests come to jam -rrb- .
+Error predicted 158300
+
+ </s> <s> more likely known as a guitar compensation device , the affect itself it widely used in everything .
+Error predicted 173731
+
+ </s> <s> seems very durable , switch and jacks are quality.i highly recommend getting a 1spot or 9v adapter b/c this thing drains batter power fast , though all modulation pedals do.this pedal does not suck tone , and is true bypass , though i wish this was n't , as i wish reverb trails were avail after the affect was turned off.for < $ 75 shipped i certainly ca n't complain.if you have any hesitations on the biyang stuff , i definitely recommend it .
+Error predicted 176082
+
+ </s> <s> i 've been playing for over 30 years and now have three different electronic tuners , so i 'm a good judge of the snark : pros : it 's chromatic so it 's good for every tuning job ; no need to plug it into your jack ; ambient noise does n't effect it ; great sharp , colorful display ; reacts quickly ; small enough to fit easily in my case ; cool blue color ; built-in metronome ; powers down automatically to save the battery ; transposes up to four steps if you 're using a capo ; will even identify major chords.cons : works better on acoustics and semi-hollows than on solid bodied guitars ; made me realize that three of my strings need intonating -lrb- or is that a pro ? -rrb-
+Error predicted 181618
+
+ </s> <s> for the price and affect itself u can not get a better deal.use it for my acoustic guitar pedal board though .
+Error predicted 184041
+
+ </s> <s> it 's a thick lead tone with a nice sustain , and colored with a delay affect .
+Error predicted 184099
+
+ </s> <s> the `` fx '' position engages the delay affect , but the tone is otherwise the same.pros : first , the price retails at $ 49.99 , whereas most of the other models are $ 39.99 .
+Error predicted 184604
+
+ </s> <s> the device is very lightweight and all plastic , accept for the metal plug portion .
+Error predicted 191807
+
+ </s> <s> however , if you 'd like a similar affect with a much more expressive -lrb- and brighter -rrb- output , try the mad professor sweet honey overdrive , or its `` clone '' companion , the joyo sweet baby overdrive.ease of use/versatility - many overdrives only have the single tone control , so i was excited to see controls for bass and treble .
+Error predicted 193232
+
+ </s> <s> 10mm standard import style ... seem good , not legendary and tremelo/whammy standard zinc block -lrb- there 's the must upgrade part ... -rrb- it 's standard 10.5 string space import , i got one pet peave ; it 's steel or brass blocks ... a shame all these guitars nowadays with the zinc thin low sustain blocks , my advise get a fender mim standard lefty trem , the whole thing with steel saddles and all maybe 50 $ best money ever spent ... i ca n't afford the gotoh or callahan stuff , on this a standard mim import space fender with steel block and saddles is easy direct replacement and with the hefty alder you 'll get tons of sustain and tone and keep tuned way better .
+Error predicted 195699
+
+ </s> <s> with the apogee jam , the connector is just like the ipad 's connector , accept it also has the `` prongs '' that come out of it , securing the connector into the ipad .
+Error predicted 215390
+
+ </s> <s> contrary to what some posters have written , channel 1 does also have some front-end modeling , accept that the the model is fixed for &#34; blackface &#34; tone and controlled by a separate volume know -lrb- no gain control -rrb- .
+Error predicted 218616
+
+ </s> <s> this joyo jf-34 us dream distortion box is very well made and produces a good range of distortion affect .
+Error predicted 222843
+
+ </s> <s> also , i could n't see any affect between engaging/disengaging the tone button .
+Error predicted 222960
+
+ </s> <s> wet means more of the affect and dry means less.there is a mic gain on the left side of the unit , and the mic input -lrb- xlr only -rrb- has phantom power .
+Error predicted 223153
+
+ </s> <s> if you only want to use this thing as a detune affect to add a static , non-oscillating , chorus like affect , it 's fine for that .
+Error predicted 223212
+
+ </s> <s> this is especially awful sounding when used as an octave affect .
+Error predicted 234140
+
+ </s> <s> accept for my strat . .

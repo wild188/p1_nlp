@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-class BigramCount implements Serializable{
+public class BigramCount implements Serializable{
     public String word1;
     public String word2;
     public int count;

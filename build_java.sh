@@ -4,10 +4,10 @@ if [ "tokenize" = $1 ]; then
 	javac -cp jars/stanford-corenlp-3.8.0.jar:./ src/Tokenizer.java -d bin/
 
 elif [ "estimate" = $1 ]; then
-	javac -cp jars/commons-math3-3.6.1.jar:./ src/ProbEstimator.java -d bin/
+	javac -cp jars/commons-math3-3.6.1.jar:./ src/ProbEstimator.java src/BigramCount.java -d bin/
 
 elif [ "predict" = $1 ]; then
-	javac src/Predictor.java -d bin/
+	javac src/Predictor.java src/BigramCount.java -d bin/
 
 elif [ "generate" = $1 ]; then
 	javac src/TestDataGenerator.java -d bin/
