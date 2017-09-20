@@ -13,45 +13,12 @@ import org.apache.commons.math3.stat.regression.SimpleRegression;
 
 //import com.sun.xml.internal.fastinfoset.vocab.Vocabulary;
 
-// class BigramCount implements Serializable{
-//     public String word1;
-//     public String word2;
-//     public int count;
-//     public double frequency;
-//     public BigramCount(String w, int c){
-//         this.word1 = w;
-//         this.word2 = null;
-//         this.count = c;
-//     }
-
-//     public BigramCount(String w1, String w2, int c){
-//         this.word1 = w1;
-//         this.word2 = w2;
-//         this.count = c;
-//     }
-
-//     public static int compare(BigramCount a, BigramCount b){
-//         int first = a.word1.compareTo(b.word1);
-//         if(first != 0) return first;
-//         if(a.word2 == null){
-//             if(b.word2 == null) return 0;
-//             else return 1;
-//         }
-//         return a.word2.compareTo(b.word2);
-//     }
-
-//     //@override
-//     public String toString(){
-//         return word1 + " -> " + word2 + " : " + count + " : " + frequency; 
-//     }
-// }
-
 public class ProbEstimator{
 
     /**
 	  * args[0]: source text file
       */
-    private static int corpusSize;
+    private static long corpusSize;
     private static ArrayList<Integer> gtList;
     private static SimpleRegression linearR;
 
@@ -65,17 +32,18 @@ public class ProbEstimator{
             vocab = calcFrequency(inputFileName);
             writeVocab(vocab);
 
-            ArrayList<Integer> zeros = new ArrayList<Integer>();
-            for(int i = 0; i < gtList.size(); i++) {
-                if(gtList.get(i) == 0) 
-                    zeros.add(i);
-                else
-                    linearR.addData(Math.log(i), Math.log(gtList.get(i)));
-            }
-            for(Integer var : zeros){
-                gtList.set(var, (int)Math.round(Math.exp(linearR.predict(var)))); //un log10???
-            }
-
+            // ArrayList<Integer> zeros = new ArrayList<Integer>();
+            // for(int i = 0; i < gtList.size(); i++) {
+            //     if(gtList.get(i) == 0) 
+            //         zeros.add(i);
+            //     else
+            //         linearR.addData(Math.log(i), Math.log(gtList.get(i)));
+            // }
+            // for(Integer var : zeros){
+            //     gtList.set(var, (int)Math.round(Math.exp(linearR.predict(var)))); //un log10???
+            // }
+            System.out.println("V = " + corpusSize + " N= " + Math.pow(corpusSize, 2) + " N1 = " + gtList.get(1) + " N0 estimate = " + ((corpusSize * corpusSize) / gtList.get(1)));
+            gtList.set(0, (int)((corpusSize * corpusSize) / gtList.get(1)));
             calcBigrams(vocab);
             
             writeff(gtList);
@@ -124,9 +92,11 @@ public class ProbEstimator{
         int i = 0;
         for (Integer var : list) {
             if(var == 0){
-                var = (int)Math.round(linearR.predict(i));
+                //var = (int)Math.round(linearR.predict(i));
+                i++;
+                continue;
             }
-            bw.write(i + " : " + var.toString());
+            bw.write(i + "                 :                   " + var.toString());
             bw.newLine();
             i++;
         }

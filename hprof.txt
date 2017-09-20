@@ -1,0 +1,253 @@
+JAVA PROFILE 1.0.1, created Tue Sep 19 13:03:11 2017
+
+Copyright (c) 2003, 2005, Oracle and/or its affiliates. All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+
+  - Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+
+  - Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in the
+    documentation and/or other materials provided with the distribution.
+
+  - Neither the name of Oracle nor the names of its
+    contributors may be used to endorse or promote products derived
+    from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+Header for -agentlib:hprof (or -Xrunhprof) ASCII Output (JDK 5.0 JVMTI based)
+
+WARNING!  This file format is under development, and is subject to
+change without notice.
+
+This file contains the following types of records:
+
+THREAD START
+THREAD END      mark the lifetime of Java threads
+
+TRACE           represents a Java stack trace.  Each trace consists
+                of a series of stack frames.  Other records refer to
+                TRACEs to identify (1) where object allocations have
+                taken place, (2) the frames in which GC roots were
+                found, and (3) frequently executed methods.
+
+HEAP DUMP       is a complete snapshot of all live objects in the Java
+                heap.  Following distinctions are made:
+
+                ROOT    root set as determined by GC
+                CLS     classes 
+                OBJ     instances
+                ARR     arrays
+
+SITES           is a sorted list of allocation sites.  This identifies
+                the most heavily allocated object types, and the TRACE
+                at which those allocations occurred.
+
+CPU SAMPLES     is a statistical profile of program execution.  The VM
+                periodically samples all running threads, and assigns
+                a quantum to active TRACEs in those threads.  Entries
+                in this record are TRACEs ranked by the percentage of
+                total quanta they consumed; top-ranked TRACEs are
+                typically hot spots in the program.
+
+CPU TIME        is a profile of program execution obtained by measuring
+                the time spent in individual methods (excluding the time
+                spent in callees), as well as by counting the number of
+                times each method is called. Entries in this record are
+                TRACEs ranked by the percentage of total CPU time. The
+                "count" field indicates the number of times each TRACE 
+                is invoked.
+
+MONITOR TIME    is a profile of monitor contention obtained by measuring
+                the time spent by a thread waiting to enter a monitor.
+                Entries in this record are TRACEs ranked by the percentage
+                of total monitor contention time and a brief description
+                of the monitor.  The "count" field indicates the number of 
+                times the monitor was contended at that TRACE.
+
+MONITOR DUMP    is a complete snapshot of all the monitors and threads in 
+                the System.
+
+HEAP DUMP, SITES, CPU SAMPLES|TIME and MONITOR DUMP|TIME records are generated 
+at program exit.  They can also be obtained during program execution by typing 
+Ctrl-\ (on Solaris) or by typing Ctrl-Break (on Win32).
+
+--------
+
+THREAD START (obj=5000017e, id = 200001, name="main", group="main")
+THREAD END (id = 200001)
+THREAD START (obj=5000017e, id = 200004, name="DestroyJavaVM", group="main")
+THREAD END (id = 200004)
+THREAD END (id = 200002)
+TRACE 300255:
+	java.io.FileInputStream.readBytes(FileInputStream.java:Unknown line)
+	java.io.FileInputStream.read(FileInputStream.java:255)
+	java.io.ObjectInputStream$PeekInputStream.read(ObjectInputStream.java:2620)
+	java.io.ObjectInputStream$PeekInputStream.readFully(ObjectInputStream.java:2636)
+TRACE 300254:
+	java.io.FileInputStream.read0(FileInputStream.java:Unknown line)
+	java.io.FileInputStream.read(FileInputStream.java:207)
+	java.io.ObjectInputStream$PeekInputStream.peek(ObjectInputStream.java:2598)
+	java.io.ObjectInputStream$BlockDataInputStream.peek(ObjectInputStream.java:2905)
+TRACE 300259:
+	java.io.FileInputStream.readBytes(FileInputStream.java:Unknown line)
+	java.io.FileInputStream.read(FileInputStream.java:255)
+	java.io.ObjectInputStream$PeekInputStream.read(ObjectInputStream.java:2620)
+	java.io.ObjectInputStream$BlockDataInputStream.read(ObjectInputStream.java:3037)
+TRACE 300260:
+	java.io.BufferedReader.readLine(BufferedReader.java:389)
+	Predictor.processTokens(Predictor.java:73)
+	Predictor.main(Predictor.java:25)
+TRACE 300261:
+	Predictor.processTokens(Predictor.java:74)
+	Predictor.main(Predictor.java:25)
+TRACE 300267:
+	Predictor.processTokens(Predictor.java:86)
+	Predictor.main(Predictor.java:25)
+TRACE 300042:
+	java.util.Arrays.copyOf(Arrays.java:3332)
+	java.lang.AbstractStringBuilder.ensureCapacityInternal(AbstractStringBuilder.java:124)
+	java.lang.AbstractStringBuilder.append(AbstractStringBuilder.java:448)
+	java.lang.StringBuilder.append(StringBuilder.java:136)
+TRACE 300080:
+	java.lang.Character.valueOf(Character.java:4571)
+	sun.invoke.util.Wrapper.<clinit>(Wrapper.java:34)
+	java.lang.invoke.MethodHandles.<clinit>(MethodHandles.java:2304)
+	java.lang.invoke.MethodHandles$Lookup.<clinit>(MethodHandles.java:663)
+TRACE 300115:
+	java.lang.invoke.MethodHandleNatives.resolve(MethodHandleNatives.java:Unknown line)
+	java.lang.invoke.MemberName$Factory.resolve(MemberName.java:975)
+	java.lang.invoke.MemberName$Factory.resolveOrFail(MemberName.java:1000)
+	java.lang.invoke.DirectMethodHandle.makePreparedLambdaForm(DirectMethodHandle.java:211)
+TRACE 300123:
+	java.lang.ClassLoader.findLoadedClass0(ClassLoader.java:Unknown line)
+	java.lang.ClassLoader.findLoadedClass(ClassLoader.java:1038)
+	java.lang.ClassLoader.loadClass(ClassLoader.java:406)
+	sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:335)
+TRACE 300128:
+	java.lang.Class.getEnclosingMethod0(Class.java:Unknown line)
+	java.lang.Class.getEnclosingMethodInfo(Class.java:1072)
+	java.lang.Class.isLocalOrAnonymousClass(Class.java:1462)
+	java.lang.Class.isLocalClass(Class.java:1422)
+TRACE 300129:
+	java.lang.Object.hashCode(Object.java:Unknown line)
+	java.lang.invoke.MethodType.hashCode(MethodType.java:777)
+	java.lang.invoke.MethodType$ConcurrentWeakInternSet$WeakEntry.<init>(MethodType.java:1279)
+	java.lang.invoke.MethodType$ConcurrentWeakInternSet.add(MethodType.java:1257)
+TRACE 300132:
+	java.lang.Class.getDeclaredMethods0(Class.java:Unknown line)
+	java.lang.Class.privateGetDeclaredMethods(Class.java:2701)
+	java.lang.Class.getDeclaredMethod(Class.java:2128)
+	java.lang.invoke.MethodHandleImpl$Lazy.<clinit>(MethodHandleImpl.java:614)
+TRACE 300139:
+	java.util.concurrent.ConcurrentHashMap.computeIfAbsent(ConcurrentHashMap.java:1654)
+	java.lang.invoke.BoundMethodHandle$Factory.getConcreteBMHClass(BoundMethodHandle.java:488)
+	java.lang.invoke.BoundMethodHandle$SpeciesData$1.apply(BoundMethodHandle.java:386)
+	java.lang.invoke.BoundMethodHandle$SpeciesData$1.apply(BoundMethodHandle.java:383)
+TRACE 300146:
+	java.lang.invoke.LambdaMetafactory.metafactory(LambdaMetafactory.java:299)
+	java.lang.invoke.LambdaForm$DMH.1229416514.invokeStatic_L6_L(LambdaForm$DMH:Unknown line)
+	java.lang.invoke.LambdaForm$BMH.1705736037.reinvoke(LambdaForm$BMH:Unknown line)
+	java.lang.invoke.LambdaForm$MH.531885035.invoke_MT(LambdaForm$MH:Unknown line)
+TRACE 300188:
+	sun.reflect.MethodAccessorGenerator.generate(MethodAccessorGenerator.java:135)
+	sun.reflect.MethodAccessorGenerator.generateSerializationConstructor(MethodAccessorGenerator.java:112)
+	sun.reflect.ReflectionFactory.generateConstructor(ReflectionFactory.java:398)
+	sun.reflect.ReflectionFactory.newConstructorForSerialization(ReflectionFactory.java:360)
+TRACE 300235:
+	sun.security.provider.SunEntries.putEntries(SunEntries.java:96)
+	sun.security.provider.Sun.<init>(Sun.java:56)
+	sun.reflect.NativeConstructorAccessorImpl.newInstance0(NativeConstructorAccessorImpl.java:Unknown line)
+	sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+TRACE 300252:
+	java.io.ObjectInputStream.readOrdinaryObject(ObjectInputStream.java:2004)
+	java.io.ObjectInputStream.readObject0(ObjectInputStream.java:1535)
+	java.io.ObjectInputStream.readObject(ObjectInputStream.java:422)
+	java.util.ArrayList.readObject(ArrayList.java:791)
+TRACE 300253:
+	java.lang.Double.longBitsToDouble(Double.java:Unknown line)
+	java.io.Bits.getDouble(Bits.java:76)
+	java.io.ObjectStreamClass$FieldReflector.setPrimFieldValues(ObjectStreamClass.java:2068)
+	java.io.ObjectStreamClass.setPrimFieldValues(ObjectStreamClass.java:1287)
+TRACE 300256:
+	java.lang.Class.getModifiers(Class.java:Unknown line)
+	java.lang.reflect.Constructor.newInstance(Constructor.java:416)
+	java.io.ObjectStreamClass.newInstance(ObjectStreamClass.java:1006)
+	java.io.ObjectInputStream.readOrdinaryObject(ObjectInputStream.java:2011)
+TRACE 300257:
+	java.io.ObjectInputStream.readOrdinaryObject(ObjectInputStream.java:2003)
+	java.io.ObjectInputStream.readObject0(ObjectInputStream.java:1535)
+	java.io.ObjectInputStream.readObject(ObjectInputStream.java:422)
+	java.util.ArrayList.readObject(ArrayList.java:791)
+TRACE 300258:
+	java.io.ObjectInputStream.readSerialData(ObjectInputStream.java:2175)
+	java.io.ObjectInputStream.readOrdinaryObject(ObjectInputStream.java:2027)
+	java.io.ObjectInputStream.readObject0(ObjectInputStream.java:1535)
+	java.io.ObjectInputStream.readObject(ObjectInputStream.java:422)
+TRACE 300263:
+	Predictor.checkConfusedWord(Predictor.java:133)
+	Predictor.processTokens(Predictor.java:86)
+	Predictor.main(Predictor.java:25)
+TRACE 300264:
+	java.util.Arrays.copyOf(Arrays.java:3332)
+	java.lang.AbstractStringBuilder.ensureCapacityInternal(AbstractStringBuilder.java:124)
+	java.lang.AbstractStringBuilder.append(AbstractStringBuilder.java:448)
+	java.lang.StringBuffer.append(StringBuffer.java:270)
+TRACE 300265:
+	java.nio.Buffer.position(Buffer.java:243)
+	sun.nio.cs.UTF_8.updatePositions(UTF_8.java:77)
+	sun.nio.cs.UTF_8.access$200(UTF_8.java:57)
+	sun.nio.cs.UTF_8$Decoder.xflow(UTF_8.java:208)
+TRACE 300266:
+	java.lang.Double.doubleToRawLongBits(Double.java:Unknown line)
+	java.lang.Double.doubleToLongBits(Double.java:836)
+	java.lang.Double.compare(Double.java:1006)
+	Predictor.processTokens(Predictor.java:95)
+TRACE 300268:
+	Predictor.processTokens(Predictor.java:116)
+	Predictor.main(Predictor.java:25)
+CPU SAMPLES BEGIN (total = 110) Tue Sep 19 13:03:12 2017
+rank   self  accum   count trace method
+   1 33.64% 33.64%      37 300255 java.io.FileInputStream.readBytes
+   2 29.09% 62.73%      32 300254 java.io.FileInputStream.read0
+   3 11.82% 74.55%      13 300259 java.io.FileInputStream.readBytes
+   4  2.73% 77.27%       3 300260 java.io.BufferedReader.readLine
+   5  1.82% 79.09%       2 300261 Predictor.processTokens
+   6  1.82% 80.91%       2 300267 Predictor.processTokens
+   7  0.91% 81.82%       1 300042 java.util.Arrays.copyOf
+   8  0.91% 82.73%       1 300080 java.lang.Character.valueOf
+   9  0.91% 83.64%       1 300115 java.lang.invoke.MethodHandleNatives.resolve
+  10  0.91% 84.55%       1 300123 java.lang.ClassLoader.findLoadedClass0
+  11  0.91% 85.45%       1 300128 java.lang.Class.getEnclosingMethod0
+  12  0.91% 86.36%       1 300129 java.lang.Object.hashCode
+  13  0.91% 87.27%       1 300132 java.lang.Class.getDeclaredMethods0
+  14  0.91% 88.18%       1 300139 java.util.concurrent.ConcurrentHashMap.computeIfAbsent
+  15  0.91% 89.09%       1 300146 java.lang.invoke.LambdaMetafactory.metafactory
+  16  0.91% 90.00%       1 300188 sun.reflect.MethodAccessorGenerator.generate
+  17  0.91% 90.91%       1 300235 sun.security.provider.SunEntries.putEntries
+  18  0.91% 91.82%       1 300252 java.io.ObjectInputStream.readOrdinaryObject
+  19  0.91% 92.73%       1 300253 java.lang.Double.longBitsToDouble
+  20  0.91% 93.64%       1 300256 java.lang.Class.getModifiers
+  21  0.91% 94.55%       1 300257 java.io.ObjectInputStream.readOrdinaryObject
+  22  0.91% 95.45%       1 300258 java.io.ObjectInputStream.readSerialData
+  23  0.91% 96.36%       1 300263 Predictor.checkConfusedWord
+  24  0.91% 97.27%       1 300264 java.util.Arrays.copyOf
+  25  0.91% 98.18%       1 300265 java.nio.Buffer.position
+  26  0.91% 99.09%       1 300266 java.lang.Double.doubleToRawLongBits
+  27  0.91% 100.00%       1 300268 Predictor.processTokens
+CPU SAMPLES END

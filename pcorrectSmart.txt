@@ -1,0 +1,121 @@
+Read in 179093 bigrams
+! -> '' : 4 : 1.7525083921323276E-5 Through...
+~ -> this : 1 : 1.891334994808871E-6
+Error predicted 8378
+
+Error predicted 26423
+
+Error predicted 36689
+
+Error predicted 37890
+
+Error predicted 38518
+
+Error predicted 46392
+
+Error predicted 50548
+
+Error predicted 53852
+
+Error predicted 61820
+
+Error predicted 66346
+
+Error predicted 71338
+
+Error predicted 71601
+
+Error predicted 94488
+
+Error predicted 95535
+
+Error predicted 99452
+
+Error predicted 101846
+
+Error predicted 103510
+
+Error predicted 107316
+
+ </s> <s> for a guitarist just starting out , this would still make a good first tuner when you really want to spend your money on pedals that will effect your sound .
+Error predicted 111212
+
+Error predicted 112134
+
+Error predicted 112158
+
+Error predicted 112220
+
+Error predicted 112239
+
+Error predicted 112254
+
+Error predicted 113167
+
+Error predicted 116360
+
+Error predicted 119487
+
+Error predicted 122930
+
+Error predicted 125682
+
+Error predicted 126035
+
+Error predicted 126042
+
+Error predicted 126129
+
+Error predicted 138979
+
+Error predicted 140157
+
+ </s> <s> the fine print requires a sales receipt -lrb- bs imo -rrb- and says something to the effect of `` we will decide if we will replace it '' .
+Error predicted 145225
+
+Error predicted 150772
+
+Error predicted 151551
+
+Error predicted 152487
+
+Error predicted 153101
+
+Error predicted 158300
+
+Error predicted 173731
+
+Error predicted 176082
+
+ </s> <s> there 's also a volume knob that appears to effect both listening and recording level .
+Error predicted 181618
+
+Error predicted 184041
+
+Error predicted 184099
+
+Error predicted 184604
+
+Error predicted 191807
+
+Error predicted 193232
+
+Error predicted 195699
+
+ </s> <s> well built.not plastic or cheaply constructed like some pedals out.has a good selection tones and voicing knobs really does a lot to affect sound.simple to use .
+Error predicted 215390
+
+Error predicted 218616
+
+ </s> <s> i ignored the reviewers who said the pitch correction function had no affect - how could tc electronics put out the &#34; mic mechanic &#34; with a pitch correction function that did n't do anything ?
+ </s> <s> well , those reviewers were right - the pitch correction function has no affect !
+Error predicted 222843
+
+Error predicted 222960
+
+Error predicted 223153
+
+Error predicted 223212
+
+Error predicted 234140
+

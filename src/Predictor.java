@@ -60,6 +60,7 @@ public class Predictor{
 
         int lineCount = 2;
         boolean error = false;
+        boolean newSeq = false;
         StringBuffer sentence = new StringBuffer();
 
         String lastWord;
@@ -74,13 +75,16 @@ public class Predictor{
                 sentenceCount++;
                 wordCount = -1;
                 if(error){
-                    System.out.println(sentence.toString());
+                    if(!newSeq)
+                        System.out.println(sentence.toString());
                 }
                 sentence = new StringBuffer();
                 error = false;
+                newSeq = false;
             }else{
                 String[] pair;
                 if((pair = checkConfusedWord(curWord)) != null){
+                    error = true;
                     double max = 0.0; //chanceModel(lastWord, curWord);
                     String mostLikely = null; //curWord;
                     //System.out.print("Possible confusion " + lastWord + " -> " + curWord + " : ");
@@ -100,8 +104,9 @@ public class Predictor{
                         int[] temp = {sentenceCount, wordCount};
                         out.add(temp);
                         System.out.println("Error predicted " + lineCount +"\n");
-                        error = true;
+                        error = false;
                     }
+                    if(max == 0.0) newSeq = true;
                 }
             }
             lastWord = curWord;
