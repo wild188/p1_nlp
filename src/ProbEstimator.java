@@ -19,19 +19,22 @@ public class ProbEstimator{
 	  * args[0]: source text file
       */
     private static long corpusSize;
-    private static ArrayList<Integer> gtList;
+    private static long vocabSize;
+    private static ArrayList<Integer> ffList;
     private static SimpleRegression linearR;
 
     public static void main(String[] args){
         String inputFileName = args[0];
-        List<BigramCount> vocab;
-        gtList = new ArrayList<Integer>();
+        List<BigramCount> bigrams;
+        ffList = new ArrayList<Integer>();
         linearR = new SimpleRegression();
         corpusSize = 0;
         try{
-            vocab = calcFrequency(inputFileName);
-            writeVocab(vocab);
+            bigrams = calcFrequency(inputFileName);
+            writeVocab(bigrams);
 
+            System.out.println("|V| = " + vocabSize + " Bigrams sceen = " + bigrams.size());
+            System.out.println("N0 with |v| = " + (Math.pow(vocabSize, 2) - bigrams.size()));
             // ArrayList<Integer> zeros = new ArrayList<Integer>();
             // for(int i = 0; i < gtList.size(); i++) {
             //     if(gtList.get(i) == 0) 
@@ -42,12 +45,12 @@ public class ProbEstimator{
             // for(Integer var : zeros){
             //     gtList.set(var, (int)Math.round(Math.exp(linearR.predict(var)))); //un log10???
             // }
-            System.out.println("V = " + corpusSize + " N= " + Math.pow(corpusSize, 2) + " N1 = " + gtList.get(1) + " N0 estimate = " + ((corpusSize * corpusSize) / gtList.get(1)));
-            gtList.set(0, (int)((corpusSize * corpusSize) / gtList.get(1)));
-            calcBigrams(vocab);
-            
-            writeff(gtList);
-            writeGT(gtList, 10);
+            calcBigrams(bigrams);
+            writeff(ffList);
+
+            System.out.println("N = " + corpusSize + " N^2= " + Math.pow(corpusSize, 2) + " N1 hello = " + ffList.get(1) + " N0 estimate = " + ((corpusSize * corpusSize) / ffList.get(1)));
+            ffList.set(0, (int)((corpusSize * corpusSize) / ffList.get(1)));
+            writeGT(ffList, 10);
         }catch(Exception e){
             System.out.println(e.getMessage());
             return;
@@ -61,7 +64,7 @@ public class ProbEstimator{
         BufferedWriter bw = new BufferedWriter(fw);
         
         for (BigramCount var : master) {
-            double cStar = (var.count + 1) * (gtList.get(var.count + 1) / (double)gtList.get(var.count));
+            double cStar = (var.count + 1) * (ffList.get(var.count + 1) / (double)ffList.get(var.count));
             var.frequency = cStar / (double)master.size();
             bw.write(var.toString());
             bw.newLine();
@@ -168,7 +171,8 @@ public class ProbEstimator{
         
         BufferedReader bReader = new BufferedReader(fReader);
         
-        List<BigramCount> vocab = new ArrayList<BigramCount>();
+        List<BigramCount> bigrams = new ArrayList<BigramCount>();
+        ArrayList<String> vocab = new ArrayList<String>();
         Comparator<BigramCount> comp = new Comparator<BigramCount>() {
             public int compare(BigramCount a, BigramCount b) {
                 return BigramCount.compare(a, b);
@@ -180,50 +184,54 @@ public class ProbEstimator{
 
         if((curWord = bReader.readLine()) != null){
             BigramCount potential = new BigramCount(curWord, 1);
-            vocab.add(potential);
+            bigrams.add(potential);
         }
         lastWord = curWord;
         while((curWord = bReader.readLine()) != null){
             BigramCount potential = new BigramCount(lastWord, curWord, 1);
             corpusSize++;
-            int index = Collections.binarySearch(vocab, potential, comp);
+            addVocab(curWord, vocab);
+            int index = Collections.binarySearch(bigrams, potential, comp);
             //System.out.println(lastWord + "->" +curWord);
             if(index >= 0){
-                vocab.get(index).count++;
+                bigrams.get(index).count++;
                 //System.out.println("Incrementing " + vocab.get(index).toString());
             }else{
                 index *= -1;
-                vocab.add(index - 1, potential);
+                bigrams.add(index - 1, potential);
                 //System.out.println("Adding " + vocab.get(index - 1).toString());
             }
             lastWord = curWord;
         }
 
+        vocabSize = vocab.size();
+
         int max = 0;
         int x = 0;
-        for (BigramCount var : vocab) {
+        for (BigramCount var : bigrams) {
             //var.frequency = var.count / (double)corpusSize;
             if(var.count > max){
                 int diff = var.count - max;
                 System.out.printf("Adding %d ",diff);
                 int[] ztemp = new int[diff];
-                gtList.addAll(new ArrayList<Integer>(Collections.nCopies(diff + 1, 0)));
+                ffList.addAll(new ArrayList<Integer>(Collections.nCopies(diff + 1, 0)));
                 max = var.count;
                 System.out.printf("%s is a new max at %d\n", var.toString(), max);
-                gtList.set(max, 1);
+                ffList.set(max, 1);
             }else{
-                gtList.set(var.count, gtList.get(var.count) + 1);
+                ffList.set(var.count, ffList.get(var.count) + 1);
             }
         }
 
-        return vocab;
+        return bigrams;
     }
 
-    // private static int newWord(List<WordCount> v, String word){
-    //     int index = Collections.binarySearch(vocab);
-    //     if(index > 1){
-    //         v[index].count++;
-    //         return index;
-    //     }
-    // }
+    private static void addVocab(String word, ArrayList<String>vocab){
+        int index = Collections.binarySearch(vocab, word);
+        if(index < 0){
+            index *= -1;
+            vocab.add(index - 1, word);
+            //System.out.println("Adding " + vocab.get(index - 1).toString());
+        }
+    }
 }
