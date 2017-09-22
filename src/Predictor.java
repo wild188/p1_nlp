@@ -5,7 +5,12 @@ public class Predictor{
 
     private static ArrayList<String[]> pairedWords;
     private static ArrayList<BigramCount> bigrams;
-    private static final String endToken = "</s>";
+    private static double[] gtTable;
+    private static final String startToken = "<s>";
+
+    private static ArrayList<ArrayList<Integer>> simpleModelErrors;
+    private static ArrayList<ArrayList<Integer>> gtErrors;
+    private static ArrayList<ArrayList<Integer>> laplacianErrors;
 
     public static void main(String[] args){
         if(args.length < 2){
@@ -13,38 +18,64 @@ public class Predictor{
             System.exit(0);
         }
         pairedWords = new ArrayList<String[]>();
+        simpleModelErrors = new ArrayList<ArrayList<Integer>>();
+        gtErrors = new ArrayList<ArrayList<Integer>>();
+        laplacianErrors = new ArrayList<ArrayList<Integer>>();
+
         String testTokensFile = args[0];
         String predictionsFile = args[1];
         String confusingWordsFile = "data/all_confusingWords.txt";//args[1];
         String bigramsFile = "results/bigrams.ser";
+        String gtTableFile = "results/GTTable.ser";
+
+        String simplePredictionsFile = "results/simplePredictions.txt";
+        String laplacianPredictionsFile = "results/laplacianPredictions.txt";
+        String gtPredictionsFile = "results/GTPredictions.txt";
 
         try{
-            readConfusingWords(confusingWordsFile);
             bigrams = readBigrams(bigramsFile);
-
-            ArrayList<int[]> errors = processTokens(testTokensFile);
-            writeErrors(errors, predictionsFile);
-        }catch(IOException io){
-            System.out.println(io.getMessage());
-            return;
-        }catch(Exception ex){
+            gtTable = readGTTable(gtTableFile);
+        }
+        catch(Exception ex){
             System.out.println(ex.getMessage());
             return;
         }
+        
+        try{
+            readConfusingWords(confusingWordsFile);
+            // bigrams = readBigrams(bigramsFile);
+            // gtTable = readGTTable(gtTableFile);
+
+            processTokens(testTokensFile);
+            //writeErrors(errors, predictionsFile);
+            writeErrors(simpleModelErrors, simplePredictionsFile);
+            writeErrors(laplacianErrors, laplacianPredictionsFile);
+            writeErrors(gtErrors, gtPredictionsFile);
+            writeErrors(gtErrors, predictionsFile);
+        }catch(IOException io){
+            System.out.println(io.getMessage());
+            return;
+        }
+        
     }
 
-    private static void writeErrors(ArrayList<int[]> data, String filename)throws  IOException{
+    private static void writeErrors(ArrayList<ArrayList<Integer>> data, String filename)throws  IOException{
         FileWriter fw = new FileWriter(filename);
 		BufferedWriter bw = new BufferedWriter(fw);
-        for (int[] location: data) {
-            bw.write(location[0] + ":" + location[1]);
+        for (ArrayList<Integer> location: data) {
+            bw.write(location.get(0) + ":" + location.get(1));
+            if(location.size() > 2){
+                for(int i = 2; i < location.size(); i++){
+                    bw.write("," + location.get(i));
+                }            
+            }
             bw.newLine();
         }
         bw.close();
         fw.close();
     }
 
-    private static ArrayList<int[]> processTokens(String filename) throws IOException{
+    private static void processTokens(String filename) throws IOException{
         FileReader fReader = new FileReader(filename);
         BufferedReader bReader = new BufferedReader(fReader);
         
@@ -53,78 +84,136 @@ public class Predictor{
                 return BigramCount.compare(a, b);
             }
         };
-        ArrayList<int[]> out = new ArrayList<int[]>();
+        //ArrayList<int[]> out = new ArrayList<int[]>();
 
         int sentenceCount = 0;
-        int wordCount = 1;
+        int wordCount = 0;
 
-        int lineCount = 2;
-        boolean error = false;
-        boolean newSeq = false;
-        StringBuffer sentence = new StringBuffer();
+        //int lineCount = 2;
+        //boolean error = false;
+        //boolean newSeq = false;
+        //StringBuffer sentence = new StringBuffer();
 
         String lastWord;
         String curWord;
+        boolean sentenceError1 = false;
+        boolean sentenceError2 = false;
+        boolean sentenceError3 = false;
         if((lastWord = bReader.readLine()) == null){
            System.out.println("Not enough tokens.");
-            return out;
+            return;
         }
  
         while((curWord = bReader.readLine()) != null){
-            if(curWord.equals(endToken)){
+            if(curWord.equals(startToken)){
                 sentenceCount++;
-                wordCount = -1;
-                if(error){
-                    if(!newSeq)
-                        System.out.println(sentence.toString());
-                }
-                sentence = new StringBuffer();
-                error = false;
-                newSeq = false;
+                wordCount = 0;
+                sentenceError1 = false;
+                sentenceError2 = false;
+                sentenceError3 = false;
+                lastWord = curWord;
+                continue;
+                // if(error){
+                //     if(!newSeq)
+                //         System.out.println(sentence.toString());
+                // }
+                //sentence = new StringBuffer();
+                //error = false;
+                //newSeq = false;
             }else{
                 String[] pair;
                 if((pair = checkConfusedWord(curWord)) != null){
-                    error = true;
-                    double max = 0.0; //chanceModel(lastWord, curWord);
-                    String mostLikely = null; //curWord;
-                    //System.out.print("Possible confusion " + lastWord + " -> " + curWord + " : ");
-                    for(String word: pair){
-                        //if(word.equals(curWord)) continue;
-                        double temp = chanceModel(lastWord, word, comp);
-                        
-                        int dif = Double.compare(max, temp);
-                        //System.out.print(word + ": " + temp + " --- " + dif);
-                        if(dif < 0 || (dif == 0  && word.equals(curWord))){
-                            max = temp;
-                            mostLikely = word;
-                        }
-                    }
-                    //System.out.println("-----" + mostLikely + "-----");
-                    if(!mostLikely.equals(curWord)){
-                        int[] temp = {sentenceCount, wordCount};
-                        out.add(temp);
-                        System.out.println("Error predicted " + lineCount +"\n");
-                        error = false;
-                    }
-                    if(max == 0.0) newSeq = true;
+                    sentenceError1 = modelCheck(sentenceCount, wordCount, pair, curWord, lastWord, comp, 1, sentenceError1);
+                    sentenceError2 = modelCheck(sentenceCount, wordCount, pair, curWord, lastWord, comp, 2, sentenceError2);
+                    sentenceError3 = modelCheck(sentenceCount, wordCount, pair, curWord, lastWord, comp, 3, sentenceError3);
                 }
             }
             lastWord = curWord;
             wordCount++;
-            lineCount++;
-            sentence.append(" ");
-            sentence.append(curWord);
+            //lineCount++;
+            //sentence.append(" ");
+            //sentence.append(curWord);
         }
-        return out;
+        return;
     }
 
-    private static double chanceModel(String w1, String w2, Comparator<BigramCount> comp){
+    private static boolean modelCheck(int sentenceCount, int wordCount, String[] pair, String curWord, String lastWord, Comparator<BigramCount> comp, int modelFlag, boolean addFlag){
+        double max = 0.0; //chanceModel(lastWord, curWord);
+        String mostLikely = null; //curWord;
+        for(String word: pair){
+            //if(word.equals(curWord)) continue;
+            double temp = 0;
+            if(modelFlag == 1){
+                temp = laplacianModel(lastWord, word, comp);
+            }else if(modelFlag == 2){
+                temp = gtModel(lastWord, word, comp);
+            }else{
+                temp = simpleModel(lastWord, word, comp);
+            }
+            
+            int dif = Double.compare(max, temp);
+            //System.out.print(word + ": " + temp + " --- " + dif);
+            if(dif < 0 || (dif == 0  && word.equals(curWord))){
+                max = temp;
+                mostLikely = word;
+            }
+        }
+        //System.out.println("-----" + mostLikely + "-----");
+        if(!mostLikely.equals(curWord)){
+            if(!addFlag){
+                ArrayList<Integer> temp = new ArrayList<Integer>(); //{sentenceCount, wordCount};
+                temp.add(sentenceCount);
+                temp.add(wordCount);
+                if(modelFlag == 1){
+                    laplacianErrors.add(temp);
+                }else if(modelFlag == 2){
+                    gtErrors.add(temp);
+                }else if(modelFlag == 3){
+                    simpleModelErrors.add(temp);
+                }
+                return true;
+            }else{
+                if(modelFlag == 1){
+                    laplacianErrors.get(laplacianErrors.size() - 1).add(wordCount);
+                }else if(modelFlag == 2){
+                    gtErrors.get(gtErrors.size() - 1).add(wordCount);
+                }else if(modelFlag == 3){
+                    simpleModelErrors.get(simpleModelErrors.size() - 1).add(wordCount);
+                }
+            }
+        }
+        return addFlag;
+    }
+
+    private static double laplacianModel(String w1, String w2, Comparator<BigramCount> comp){
         BigramCount potential = new BigramCount(w1, w2, 0);
         int index = Collections.binarySearch(bigrams, potential, comp);
         if(index >= 0){
-            return bigrams.get(index).frequency;
+            return bigrams.get(index).laplacianProb;      //frequency;
         }else{
             return 0.0;
+        }
+    }
+
+    private static int simpleModel(String w1, String w2, Comparator<BigramCount> comp){
+        BigramCount potential = new BigramCount(w1, w2, 0);
+        int index = Collections.binarySearch(bigrams, potential, comp);
+        if(index >= 0){
+            return bigrams.get(index).count;      //frequency;
+        }else{
+            return 0;
+        }
+    }
+
+    private static double gtModel(String w1, String w2, Comparator<BigramCount> comp){
+        BigramCount potential = new BigramCount(w1, w2, 0);
+        int index = Collections.binarySearch(bigrams, potential, comp);
+        if(index >= 0){
+            int count = bigrams.get(index).count;
+            if(count >= gtTable.length) return count; // unsmoothed c > k
+            return gtTable[count]; //smoothed c < k
+        }else{
+            return gtTable[0];
         }
     }
 
@@ -152,6 +241,18 @@ public class Predictor{
             pairedWords.add(temp);
             //System.out.println(temp[0] + " <-> " + temp[1]);
         }
+    }
+
+    private static double[] readGTTable(String filename) throws Exception{
+        File objFile = new File(filename);
+        FileInputStream fileIn = new FileInputStream(objFile);
+        ObjectInputStream objIn = new ObjectInputStream(fileIn);
+
+        //@SuppressWarnings("unchecked");
+        Object temp = objIn.readObject();
+        double[] out = (double[])temp;
+        System.out.println("Read in " + out.length + " Good Turing table entries");
+        return out;
     }
 
     private static ArrayList<BigramCount> readBigrams(String filename) throws Exception{

@@ -5,7 +5,7 @@ public class BigramCount implements Serializable{
     public String word1;
     public String word2;
     public int count;
-    public double frequency;
+    public double laplacianProb;
     public BigramCount(String w, int c){
         this.word1 = w;
         this.word2 = null;
@@ -19,6 +19,8 @@ public class BigramCount implements Serializable{
     }
 
     public static int compare(BigramCount a, BigramCount b){
+        if(a.word1 == null && a.word2 == null) return -1;
+        if(b.word1 == null && b.word2 == null) return 1;
         int first = a.word1.compareTo(b.word1);
         if(first != 0) return first;
         if(a.word2 == null){
@@ -30,6 +32,6 @@ public class BigramCount implements Serializable{
 
     //@override
     public String toString(){
-        return word1 + " -> " + word2 + " : " + count + " : " + frequency; 
+        return word1 + " -> " + word2 + " : " + count + " : " + laplacianProb; 
     }
 }
