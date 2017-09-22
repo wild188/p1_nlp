@@ -13,20 +13,6 @@ import org.apache.commons.math3.stat.regression.SimpleRegression;
 
 //import com.sun.xml.internal.fastinfoset.vocab.Vocabulary;
 
-class vocabCount{
-    public String word;
-    public int count;
-    public vocabCount(String word, int count){
-        this.word = word;
-        this.count = count;
-    }
-
-    //@override
-    public String toString(){
-        return word + " : " + count; 
-    }
-}
-
 public class ProbEstimator{
 
     /**
@@ -47,14 +33,8 @@ public class ProbEstimator{
         corpusSize = 0;
         try{
             bigrams = calcFrequency(inputFileName);
-            //writeVocab(bigrams);
-            
-
             calcBigrams(bigrams);
             writeff(ffList);
-
-            //System.out.println("N = " + corpusSize + " N^2= " + Math.pow(corpusSize, 2) + " N1 hello = " + ffList.get(1) + " N0 estimate = " + ((corpusSize * corpusSize) / ffList.get(1)));
-            //ffList.set(0, (int)((corpusSize * corpusSize) / ffList.get(1)));
             writeGT(ffList, 10);
             dataExploration();
         }catch(IOException e){

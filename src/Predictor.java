@@ -84,15 +84,9 @@ public class Predictor{
                 return BigramCount.compare(a, b);
             }
         };
-        //ArrayList<int[]> out = new ArrayList<int[]>();
 
         int sentenceCount = 0;
         int wordCount = 0;
-
-        //int lineCount = 2;
-        //boolean error = false;
-        //boolean newSeq = false;
-        //StringBuffer sentence = new StringBuffer();
 
         String lastWord;
         String curWord;
@@ -113,13 +107,6 @@ public class Predictor{
                 sentenceError3 = false;
                 lastWord = curWord;
                 continue;
-                // if(error){
-                //     if(!newSeq)
-                //         System.out.println(sentence.toString());
-                // }
-                //sentence = new StringBuffer();
-                //error = false;
-                //newSeq = false;
             }else{
                 String[] pair;
                 if((pair = checkConfusedWord(curWord)) != null){
@@ -130,9 +117,6 @@ public class Predictor{
             }
             lastWord = curWord;
             wordCount++;
-            //lineCount++;
-            //sentence.append(" ");
-            //sentence.append(curWord);
         }
         return;
     }
@@ -185,6 +169,7 @@ public class Predictor{
         return addFlag;
     }
 
+    //Uses laplacian smoothing but ignored teh constant probability of the first word
     private static double laplacianModel(String w1, String w2, Comparator<BigramCount> comp){
         BigramCount potential = new BigramCount(w1, w2, 0);
         int index = Collections.binarySearch(bigrams, potential, comp);
@@ -205,6 +190,7 @@ public class Predictor{
         }
     }
 
+    //Uses Good Turing smoothing but ignored teh constant probability of the first word
     private static double gtModel(String w1, String w2, Comparator<BigramCount> comp){
         BigramCount potential = new BigramCount(w1, w2, 0);
         int index = Collections.binarySearch(bigrams, potential, comp);
