@@ -63,13 +63,14 @@ public class Predictor{
         FileWriter fw = new FileWriter(filename);
 		BufferedWriter bw = new BufferedWriter(fw);
         for (ArrayList<Integer> location: data) {
-            bw.write(location.get(0) + ":" + location.get(1));
+            bw.write(location.get(0) + ":" + (location.get(1) + 1)); //off by one
             if(location.size() > 2){
                 for(int i = 2; i < location.size(); i++){
-                    bw.write("," + location.get(i));
+                    bw.write("," + (location.get(i) + 1)); //off by one
                 }            
             }
-            bw.newLine();
+            bw.write(",\n");
+            //bw.newLine();
         }
         bw.close();
         fw.close();
